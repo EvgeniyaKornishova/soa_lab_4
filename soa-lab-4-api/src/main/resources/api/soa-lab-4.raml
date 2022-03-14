@@ -1,0 +1,238 @@
+#%RAML 1.0
+title: soa_lab4
+mediaType: 
+- application/xml
+protocols:
+  - HTTPS
+baseUri: /persons
+version: "2.0"
+/persons:
+  get:
+    displayName: Get Persons List
+    queryParameters:
+      name:
+        type: string
+        required: false
+      height:
+        type: number
+        format: float
+        required: false 
+      eye_color:
+        type: color
+        required: false
+      hair_color:
+        type: color
+        required: false
+      nationality:
+        type: country
+        required: false
+      coordinates_x:
+        type: integer
+        required: false
+      coordinates_y:
+        type: number
+        format: double
+        required: false
+      location_x:
+        type: integer
+        required: false
+      location_y:
+        type: number
+        format: float
+        required: false
+      location_z:
+        type: number
+        format: float
+        required: false
+      creation_date:
+        type: string
+        required: false
+      page_id:
+        type: integer
+        required: false
+      page_size:
+        type: integer
+        required: false
+      sort:
+        type: string
+        required: false
+    responses:
+      200:
+        body:
+          type: object
+      400:
+        body:
+          type: object
+      500:
+        body:
+          type: object
+  options:
+    displayName: Options
+    responses:
+      200: {}
+  post:
+    displayName: Create Person
+    responses:
+      200:
+        body:
+          type: object
+      400:
+        body:
+          type: object
+      500:
+        body:
+          type: object
+    body:
+      type: person
+/persons/{id}:
+  get:
+    displayName: Get Person by id
+    responses:
+      200:
+        body:
+          type: object
+      400:
+        body:
+          type: object
+      500:
+        body:
+          type: object
+  put:
+    displayName: Update person
+    responses:
+      200:
+        body:
+          type: object
+      400:
+        body:
+          type: object
+      500:
+        body:
+          type: object
+    body:
+      type: person
+  delete:
+    displayName: Delete person
+    responses:
+      200:
+        body:
+          type: object
+      400:
+        body:
+          type: object
+      500:
+        body:
+          type: object
+  options:
+    displayName: Options
+    responses:
+      200: {}
+  uriParameters:
+    id:
+      type: number
+      format: long
+/persons/names/search:
+  get:
+    displayName: Find person by name
+    queryParameters:
+        name:
+          type: string
+    responses:
+      200:
+        body:
+          type: object
+      400:
+        body:
+          type: object
+      500:
+        body:
+          type: object
+  options:
+    displayName: Options
+    responses:
+      200: {}
+/persons/heights/sum:
+  get:
+    displayName: Get heights sum
+    responses:
+      200:
+        body:
+          type: object
+      400:
+        body:
+          type: object
+      500:
+        body:
+          type: object
+  options:
+    displayName: Options
+    responses:
+      200: {}
+/persons/locations/uniq:
+  get:
+    displayName: Get uniq locations list
+    responses:
+      200:
+        body:
+          type: object
+      400:
+        body:
+          type: object
+      500:
+        body:
+          type: object
+  options:
+    displayName: Options
+    responses:
+      200: {}
+types:
+  person:
+    properties:
+      name:
+        type: string
+      coordinates:
+        type: coordinates
+      height:
+        type: number
+        format: float
+      eyeColor:
+        type: color
+      hairColor:
+        type: color
+      nationality:
+        type: country
+      location:
+        type: location
+  coordinates:
+    properties:
+      x:
+        type: number
+        format: long
+      y:
+        type: number
+        format: double
+  location:
+    properties:
+      x:
+        type: integer
+      y:
+        type: number
+        format: float
+      z:
+        type: number
+        format: float
+  color:
+    enum:
+      - GREEN
+      - BLACK
+      - YELLOW
+      - ORANGE
+      - WHITE
+  country:
+    enum:
+      - INDIA
+      - VATICAN
+      - NORTH_KOREA
+      - JAPAN
+      
+      

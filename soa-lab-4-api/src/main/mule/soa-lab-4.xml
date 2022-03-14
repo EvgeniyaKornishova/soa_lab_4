@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
+http://www.mulesoft.org/schema/mule/wsc http://www.mulesoft.org/schema/mule/wsc/current/mule-wsc.xsd">
+    <http:listener-config name="soa-lab-4-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="5055" >
+		</http:listener-connection>
+    </http:listener-config>
+    <apikit:config name="soa-lab-4-config" api="soa-lab-4.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="75190af7-8014-4fe2-84aa-376512d66fe3" >
+		<http:request-connection protocol="HTTPS">
+			<tls:context >
+				<tls:trust-store insecure="true" />
+			</tls:context>
+		</http:request-connection>
+	</http:request-config>
+	<wsc:config name="Web_Service_Consumer_Config_Get_Persons_List" doc:name="Web Service Consumer Config" doc:id="08302c54-235a-4ad7-8bd9-d4ec34151b37" >
+		<wsc:connection wsdlLocation="https://localhost:5052/person_service/persons/listPerson.wsdl" service="ListPersonPortService" port="ListPersonPortSoap11" address="https://localhost:5052/person_service/persons/list" >
+			<wsc:custom-transport-configuration >
+				<wsc:http-transport-configuration requesterConfig="HTTP_Request_configuration" />
+			</wsc:custom-transport-configuration>
+		</wsc:connection>
+	</wsc:config>
+	<wsc:config name="Web_Service_Consumer_Config_Get_Heights_Sum" doc:name="Web Service Consumer Config" doc:id="8edec958-b487-4c95-bff8-deb16e1026aa" >
+		<wsc:connection wsdlLocation="https://localhost:5052/person_service/persons/getHeightSum.wsdl" service="GetHeightSumPortService" port="GetHeightSumPortSoap11" address="https://localhost:5052/person_service/persons/height_sum" >
+			<wsc:custom-transport-configuration >
+				<wsc:http-transport-configuration requesterConfig="HTTP_Request_configuration" />
+			</wsc:custom-transport-configuration>
+			<wsc:web-service-security actor="http://schemas.xmlsoap.org/soap/actor/next" />
+		</wsc:connection>
+	</wsc:config>
+	<wsc:config name="Web_Service_Consumer_Config_Get_Uniq_Locations" doc:name="Web Service Consumer Config" doc:id="fa6bd3e1-9520-49aa-9708-d931760e84a4" >
+		<wsc:connection wsdlLocation="https://localhost:5052/person_service/persons/getUniqLocations.wsdl" service="GetUniqLocationsPortService" port="GetUniqLocationsPortSoap11" address="https://localhost:5052/person_service/persons/" >
+			<wsc:custom-transport-configuration >
+				<wsc:http-transport-configuration requesterConfig="HTTP_Request_configuration" />
+			</wsc:custom-transport-configuration>
+		</wsc:connection>
+	</wsc:config>
+	<wsc:config name="Web_Service_Consumer_Config" doc:name="Web Service Consumer Config" doc:id="ba879bcb-0956-48da-9554-a403b6efbe84" >
+		<wsc:connection wsdlLocation="https://localhost:5052/person_service/persons/findPerson.wsdl" service="FindPersonPortService" port="FindPersonPortSoap11" address="https://localhost:5052/person_service/persons/find" >
+			<wsc:custom-transport-configuration >
+				<wsc:http-transport-configuration requesterConfig="HTTP_Request_configuration" />
+			</wsc:custom-transport-configuration>
+		</wsc:connection>
+	</wsc:config>
+	<wsc:config name="Web_Service_Consumer_Config_Get_Person" doc:name="Web Service Consumer Config" doc:id="95fd66eb-5df7-4120-8839-c66c48efd756" >
+		<wsc:connection wsdlLocation="https://localhost:5052/person_service/persons/getPerson.wsdl" service="GetPersonPortService" port="GetPersonPortSoap11" address="https://localhost:5052/person_service/persons/get" >
+			<wsc:custom-transport-configuration >
+				<wsc:http-transport-configuration requesterConfig="HTTP_Request_configuration" />
+			</wsc:custom-transport-configuration>
+		</wsc:connection>
+	</wsc:config>
+	<wsc:config name="Web_Service_Consumer_Config_Delete_Person" doc:name="Web Service Consumer Config" doc:id="da6fac0f-9d4c-4de7-a90a-ca64aabc6616" >
+		<wsc:connection wsdlLocation="https://localhost:5052/person_service/persons/deletePerson.wsdl" service="DeletePersonPortService" port="DeletePersonPortSoap11" address="https://localhost:5052/person_service/persons/delete" >
+			<wsc:custom-transport-configuration >
+				<wsc:http-transport-configuration requesterConfig="HTTP_Request_configuration" />
+			</wsc:custom-transport-configuration>
+		</wsc:connection>
+	</wsc:config>
+	<wsc:config name="Web_Service_Consumer_Config_Create_Person" doc:name="Web Service Consumer Config" doc:id="c68abc92-9da4-4c52-8cff-a1c1e48ea76d" >
+		<wsc:connection wsdlLocation="https://localhost:5052/person_service/persons/createPerson.wsdl" service="CreatePersonPortService" port="CreatePersonPortSoap11" address="https://localhost:5052/person_service/persons/create" >
+			<wsc:custom-transport-configuration >
+				<wsc:http-transport-configuration requesterConfig="HTTP_Request_configuration" />
+			</wsc:custom-transport-configuration>
+		</wsc:connection>
+	</wsc:config>
+	<wsc:config name="Web_Service_Consumer_Config_Update_Person" doc:name="Web Service Consumer Config" doc:id="51cf67de-7a84-44e9-8dca-d368cad0b6c1" >
+		<wsc:connection wsdlLocation="https://localhost:5052/person_service/persons/updatePerson.wsdl" service="UpdatePersonPortService" port="UpdatePersonPortSoap11" address="https://localhost:5052/person_service/persons/update" >
+			<wsc:custom-transport-configuration >
+				<wsc:http-transport-configuration requesterConfig="HTTP_Request_configuration" />
+			</wsc:custom-transport-configuration>
+		</wsc:connection>
+	</wsc:config>
+	<flow name="soa-lab-4-main">
+        <http:listener config-ref="soa-lab-4-httpListenerConfig" path="/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="soa-lab-4-config" />
+        <error-handler>
+            <on-error-propagate type="APIKIT:BAD_REQUEST">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Bad request"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">400</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:METHOD_NOT_ALLOWED">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Method not allowed"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">405</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Not acceptable"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">406</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Unsupported media type"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">415</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Not Implemented"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">501</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="soa-lab-4-console">
+        <http:listener config-ref="soa-lab-4-httpListenerConfig" path="/console/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="soa-lab-4-config" />
+        <error-handler>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="put:\persons\(id):application\xml:soa-lab-4-config">
+        <logger level="INFO" message="put:\persons\(id):application\xml:soa-lab-4-config" />
+		<ee:transform doc:name="Transform Message" doc:id="6dc66bfa-d5fe-4e47-b299-205ae59f6058" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml skipNullOn = "everywhere"
+ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
+---
+{
+	ns0#updatePersonRequest: {
+		ns0#person_id: attributes.uriParams.id,
+		ns0#person: {
+			ns0#name: payload.person.name,
+			ns0#coordinates: {
+				ns0#x: payload.person.coordinates.x,
+				ns0#y: payload.person.coordinates.y
+			},
+			ns0#height: payload.person.height,
+			ns0#eyeColor: payload.person.eyeColor,
+			ns0#hairColor: payload.person.hairColor,
+			ns0#nationality: payload.person.nationality,
+			ns0#location: {
+				ns0#x: payload.person.location.x,
+				ns0#y: payload.person.location.y,
+				ns0#z: payload.person.location.z
+			}
+		}
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume doc:name="Consume" doc:id="2c8b6803-34bf-46a1-990c-88ab2b9bfd15" config-ref="Web_Service_Consumer_Config_Update_Person" operation="updatePerson">
+			<wsc:transport-headers >
+				<wsc:transport-header key="Content-Type" value="text/xml" />
+			</wsc:transport-headers>
+		</wsc:consume>
+		<ee:transform doc:name="Transform Message" doc:id="5f2a5e52-2b47-41cc-b3db-26ae2236f82d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output text/xml
+ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
+---
+{
+	status: payload.body.ns0#updatePersonResponse.status
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    </flow>
+    <flow name="delete:\persons\(id):soa-lab-4-config">
+        <logger level="INFO" message="delete:\persons\(id):soa-lab-4-config" />
+		<ee:transform doc:name="Transform Message" doc:id="4fe5c5f0-5885-43d1-87c8-08a0a8905582" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
+---
+{
+	ns0#deletePersonRequest: {
+		ns0#person_id: attributes.uriParams.id
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume doc:name="Consume" doc:id="52f4d2d1-49ef-4485-b3ae-bdb2d4530e37" config-ref="Web_Service_Consumer_Config_Delete_Person" operation="deletePerson">
+			<wsc:transport-headers >
+				<wsc:transport-header key="Content-Type" value="text/xml" />
+			</wsc:transport-headers>
+		</wsc:consume>
+		<ee:transform doc:name="Transform Message" doc:id="ac67c84c-e434-4424-9edb-969604309699" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output text/xml
+ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
+---
+{
+	status: payload.body.ns0#deletePersonResponse.status
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    </flow>
+    <flow name="options:\persons:soa-lab-4-config">
+        <logger level="INFO" message="options:\persons:soa-lab-4-config" />
+    </flow>
+    <flow name="options:\persons\heights\sum:soa-lab-4-config">
+        <logger level="INFO" message="options:\persons\heights\sum:soa-lab-4-config" />
+    </flow>
+    <flow name="options:\persons\locations\uniq:soa-lab-4-config">
+        <logger level="INFO" message="options:\persons\locations\uniq:soa-lab-4-config" />
+    </flow>
+    <flow name="options:\persons\names\search:soa-lab-4-config">
+        <logger level="INFO" message="options:\persons\names\search:soa-lab-4-config" />
+    </flow>
+    <flow name="options:\persons\(id):soa-lab-4-config">
+        <ee:transform>
+            <ee:variables>
+                <ee:set-variable variableName="id">attributes.uriParams.'id'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <logger level="INFO" message="options:\persons\(id):soa-lab-4-config" />
+    </flow>
+    <flow name="get:\persons:soa-lab-4-config">
+        <logger level="INFO" message="get:\persons:soa-lab-4-config" />
+		<ee:transform doc:name="Transform Message" doc:id="7077c526-c4d7-41a7-a727-37bc206ad1d7" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml skipNullOn = "everywhere"
+ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
+---
+{
+	ns0#getPersonListRequest: {
+		ns0#sort: attributes.queryParams.sort,
+		ns0#page_id: attributes.queryParams.page_id,
+		ns0#page_size: attributes.queryParams.page_size,
+		ns0#name: attributes.queryParams.name,
+		ns0#height: attributes.queryParams.height,
+		ns0#eye_color: attributes.queryParams.eye_color,
+		ns0#hair_color: attributes.queryParams.hair_color,
+		ns0#nationality: attributes.queryParams.nationality,
+		ns0#coordinates_x: attributes.queryParams.coordinates_x,
+		ns0#coordinates_y: attributes.queryParams.coordinates_y,
+		ns0#location_x: attributes.queryParams.location_x,
+		ns0#location_y: attributes.queryParams.location_y,
+		ns0#location_z: attributes.queryParams.location_z,
+		ns0#creation_date: attributes.queryParams.creation_date
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume doc:name="Consume" doc:id="d0f1ad6c-55f6-4ca3-bb48-520f4e3dc612" config-ref="Web_Service_Consumer_Config_Get_Persons_List" operation="getPersonList">
+			<wsc:transport-headers >
+				<wsc:transport-header key="Content-Type" value="text/xml" />
+			</wsc:transport-headers>
+		</wsc:consume>
+		<ee:transform doc:name="Transform Message" doc:id="548da9be-4c0a-47b6-aae6-23136165d4e7" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output text/xml
+ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
+---
+{
+	persons @(count: payload.body.ns0#getPersonListResponse.ns0#persons.@count): {
+	(payload.body.ns0#getPersonListResponse.ns0#persons.*ns0#person map (obj, index) -> {
+		person: {
+			id: obj.id,
+			name: obj.name,
+			coordinates: {
+				x: obj.coordinates.x,
+				y: obj.coordinates.y,
+			},
+			creationDate: obj.creationDate,
+			height: obj.height,
+			eyeColor: obj.eyeColor,
+			hairColor: obj.hairColor,
+			nationality: obj.nationality,
+			location: {
+				x: obj.location.x,
+				y: obj.location.y,
+				z: obj.location.z
+			}
+		}
+	})}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    </flow>
+    <flow name="get:\persons\heights\sum:soa-lab-4-config">
+        <logger level="INFO" message="get:\persons\heights\sum:soa-lab-4-config" />
+		<ee:transform doc:name="Transform Message" doc:id="8e33d755-74f6-498b-8a98-4abf6107d775" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
+---
+{
+	ns0#getHeightsSumRequest: null
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume operation="getHeightsSum" doc:name="Consume" doc:id="5901319b-e3e3-46c9-88b0-22ad9fab1785" config-ref="Web_Service_Consumer_Config_Get_Heights_Sum">
+			<wsc:transport-headers >
+				<wsc:transport-header key="Content-Type" value="text/xml" />
+			</wsc:transport-headers>
+		</wsc:consume>
+		<ee:transform doc:name="Transform Message" doc:id="4b9ee98b-d8b5-42c0-8cad-2a579086a463" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output text/xml
+ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
+---
+{
+	server_response: {
+		body @('type': "xs:float"): payload.body.ns0#getHeightsSumResponse.server_response
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    </flow>
+    <flow name="get:\persons\locations\uniq:soa-lab-4-config">
+        <logger level="INFO" message="get:\persons\locations\uniq:soa-lab-4-config" />
+		<ee:transform doc:name="Transform Message" doc:id="1a7febae-5b60-4e64-9979-d2618fed29e3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
+---
+{
+	ns0#getUniqLocationsRequest: null
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume doc:name="Consume" doc:id="d7b8b54f-80a9-4138-8df9-b71327c01da7" config-ref="Web_Service_Consumer_Config_Get_Uniq_Locations" operation="getUniqLocations">
+			<wsc:transport-headers >
+				<wsc:transport-header key="Content-Type" value="text/xml" />
+			</wsc:transport-headers>
+		</wsc:consume>
+		<ee:transform doc:name="Transform Message" doc:id="939317b2-6fce-48cb-89ca-c13b103ce36e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output text/xml
+ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
+---
+{
+	locations: {
+		(payload.body.ns0#getUniqLocationsResponse.ns0#locations.*ns0#location map (obj, index) -> {
+			item: {
+				x: obj.x,
+				y: obj.y,
+				z: obj.z
+			}
+		})
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    </flow>
+    <flow name="get:\persons\names\search:soa-lab-4-config">
+        <logger level="INFO" message="get:\persons\names\search:soa-lab-4-config" />
+		<ee:transform doc:name="Transform Message" doc:id="ee82c634-f695-4415-9f79-ad44c71e598e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
+---
+{
+	ns0#getPersonByNameRequest: {
+		ns0#name: attributes.queryParams.name
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume doc:name="Consume" doc:id="56464c33-5eae-4f82-be6f-a1c67ad2770a" config-ref="Web_Service_Consumer_Config" operation="getPersonByName"/>
+		<ee:transform doc:name="Transform Message" doc:id="691f2fb8-d679-4a1a-9218-2f9fc939f1eb" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output text/xml
+ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
+---
+{
+	persons: {
+	(payload.body.ns0#getPersonByNameResponse.ns0#persons.*ns0#person map (obj, index) -> {
+		item: {
+			id: obj.id,
+			name: obj.name,
+			coordinates: {
+				x: obj.coordinates.x,
+				y: obj.coordinates.y,
+			},
+			creationDate: obj.creationDate,
+			height: obj.height,
+			eyeColor: obj.eyeColor,
+			hairColor: obj.hairColor,
+			nationality: obj.nationality,
+			location: {
+				x: obj.location.x,
+				y: obj.location.y,
+				z: obj.location.z
+			}
+		}
+	})}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    </flow>
+    <flow name="get:\persons\(id):soa-lab-4-config">
+		<logger level="INFO" message="get:\persons\(id):soa-lab-4-config" />
+		<ee:transform doc:name="Transform Message" doc:id="8d6ee362-3314-4c31-b596-59161df2d7bd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
+---
+{
+	ns0#getPersonRequest: {
+		ns0#person_id: attributes.uriParams.id
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume doc:name="Consume" doc:id="9ab361a6-9774-4818-bacf-7917742cbabe" config-ref="Web_Service_Consumer_Config_Get_Person" operation="getPerson"/>
+		<ee:transform doc:name="Transform Message" doc:id="0d0c65fa-5fee-4506-95f8-4ca2995a2a3d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output text/xml
+ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
+---
+{
+	person: {
+		id: payload.body.ns0#getPersonResponse.ns0#person.id,
+		name: payload.body.ns0#getPersonResponse.ns0#person.name,
+		coordinates: {
+			x: payload.body.ns0#getPersonResponse.ns0#person.coordinates.x,
+			y: payload.body.ns0#getPersonResponse.ns0#person.coordinates.y
+		},
+		creationDate: payload.body.ns0#getPersonResponse.ns0#person.creationDate,
+		height: payload.body.ns0#getPersonResponse.ns0#person.height,
+		eyeColor: payload.body.ns0#getPersonResponse.ns0#person.eyeColor,
+		hairColor: payload.body.ns0#getPersonResponse.ns0#person.hairColor,
+		nationality: payload.body.ns0#getPersonResponse.ns0#person.nationality,
+		location: {
+			x: payload.body.ns0#getPersonResponse.ns0#person.location.x,
+			y: payload.body.ns0#getPersonResponse.ns0#person.location.y,
+			z: payload.body.ns0#getPersonResponse.ns0#person.location.z
+		}
+	}
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    </flow>
+    <flow name="post:\persons:application\xml:soa-lab-4-config">
+        <logger level="INFO" message="post:\persons:application\xml:soa-lab-4-config" />
+		<ee:transform doc:name="Transform Message" doc:id="be88ce07-5130-4551-b8f6-ec1f3b612a50" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
+---
+{
+	ns0#createPersonRequest: {
+		ns0#person: {
+			ns0#name: payload.person.name,
+			ns0#coordinates: {
+				ns0#x: payload.person.coordinates.x,
+				ns0#y: payload.person.coordinates.y
+			},
+			ns0#height: payload.person.height,
+			ns0#eyeColor: payload.person.eyeColor,
+			ns0#hairColor: payload.person.hairColor,
+			ns0#nationality: payload.person.nationality,
+			ns0#location: {
+				ns0#x: payload.person.location.x,
+				ns0#y: payload.person.location.y,
+				ns0#z: payload.person.location.z
+			}
+		}
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume doc:name="Consume" doc:id="263bfb90-56f9-4261-aa62-5fc006390f6d" config-ref="Web_Service_Consumer_Config_Create_Person" operation="createPerson">
+			<wsc:transport-headers >
+				<wsc:transport-header key="Content-Type" value="text/xml" />
+			</wsc:transport-headers>
+		</wsc:consume>
+		<ee:transform doc:name="Transform Message" doc:id="6a2557fe-82f0-4a87-b37d-ecc6d7e1cd31" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output text/xml
+ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
+---
+{
+	server_response: {
+		body: payload.body.ns0#createPersonResponse.server_response
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    </flow>
+</mule>

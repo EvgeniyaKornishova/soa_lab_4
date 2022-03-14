@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ifmo.ru/soa/lab4/primary_back/data/gen" targetNamespace="http://www.ifmo.ru/soa/lab4/primary_back/data/gen" elementFormDefault="qualified">
+
+    <xs:include schemaLocation="types.xsd"/>
+
+    <xs:element name="getPersonListRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="sort" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="page_id" type="xs:integer" minOccurs="0" maxOccurs="1" default="1"/>
+                <xs:element name="page_size" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="name" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="height" type="xs:float" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="eye_color" type="tns:color" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="hair_color" type="tns:color" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="nationality" type="tns:country" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="coordinates_x" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="coordinates_y" type="xs:double" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="location_x" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="location_y" type="xs:float" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="location_z" type="xs:float" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="creation_date" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getPersonListResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="persons">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="person" type="tns:person" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                        <xs:attribute name="count" type="xs:long"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

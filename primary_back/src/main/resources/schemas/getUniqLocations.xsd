@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ifmo.ru/soa/lab4/primary_back/data/gen" targetNamespace="http://www.ifmo.ru/soa/lab4/primary_back/data/gen" elementFormDefault="qualified">
+
+    <xs:include schemaLocation="types.xsd"/>
+
+    <xs:element name="getUniqLocationsRequest">
+    </xs:element>
+
+    <xs:element name="getUniqLocationsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="locations">
+                    <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="location" type="tns:location" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

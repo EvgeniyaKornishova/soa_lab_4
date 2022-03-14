@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.ifmo.ru/soa/lab4/primary_back/data/gen" targetNamespace="http://www.ifmo.ru/soa/lab4/primary_back/data/gen" elementFormDefault="qualified">
+
+    <xs:complexType name="person">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="coordinates" type="tns:coordinates"/>
+            <xs:element name="creationDate" type="xs:dateTime"/>
+            <xs:element name="height" type="xs:float"/>
+            <xs:element name="eyeColor" type="tns:color"/>
+            <xs:element name="hairColor" type="tns:color"/>
+            <xs:element name="nationality" type="tns:country"/>
+            <xs:element name="location" type="tns:location"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="inPerson">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="coordinates" type="tns:coordinates"/>
+            <xs:element name="height" type="xs:float"/>
+            <xs:element name="eyeColor" type="tns:color"/>
+            <xs:element name="hairColor" type="tns:color"/>
+            <xs:element name="nationality" type="tns:country"/>
+            <xs:element name="location" type="tns:location"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="coordinates">
+        <xs:sequence>
+            <xs:element name="x" type="xs:long"/>
+            <xs:element name="y" type="xs:double"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="location">
+        <xs:sequence>
+            <xs:element name="x" type="xs:integer"/>
+            <xs:element name="y" type="xs:float"/>
+            <xs:element name="z" type="xs:float"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="color">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="GREEN"/>
+            <xs:enumeration value="BLACK"/>
+            <xs:enumeration value="YELLOW"/>
+            <xs:enumeration value="ORANGE"/>
+            <xs:enumeration value="WHITE"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="country">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="INDIA"/>
+            <xs:enumeration value="VATICAN"/>
+            <xs:enumeration value="NORTH_KOREA"/>
+            <xs:enumeration value="JAPAN"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
