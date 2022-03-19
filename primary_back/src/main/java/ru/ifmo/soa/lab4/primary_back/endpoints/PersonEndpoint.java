@@ -25,6 +25,7 @@ import ru.ifmo.soa.lab4.primary_back.repositories.LocationRepository;
 import ru.ifmo.soa.lab4.primary_back.repositories.PersonRepository;
 
 
+import javax.xml.ws.http.HTTPException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -96,12 +97,12 @@ public class PersonEndpoint {
 
         List<String> errors = paginatorValidator.validate(paginator);
         if (!errors.isEmpty())
-            throw new SOAPException(converter.listToStr(errors, "errors", new String[0]));
+            throw new SOAPException(400, converter.listToStr(errors, "errors", new String[0]));
 
         if (sort.isPresent()) {
             errors = sorterValidator.validate(sort.get());
             if (!errors.isEmpty())
-                throw new SOAPException(converter.listToStr(errors, "errors", new String[0]));
+                throw new SOAPException(400, converter.listToStr(errors, "errors", new String[0]));
             sorting = true;
             sort = Optional.of(sorterValidator.format(sort.get()));
         }
@@ -118,7 +119,7 @@ public class PersonEndpoint {
             try {
                 creationDate = Optional.of(LocalDateTime.parse(sCreationDate.get()));
             }catch (DateTimeParseException e) {
-                throw new SOAPException("Invalid creation_date format");
+                throw new SOAPException(400, "Invalid creation_date format");
             }
 
         PersonSpecificationBuilder builder = new PersonSpecificationBuilder();
@@ -158,7 +159,7 @@ public class PersonEndpoint {
 
         Optional<DBPerson> opDbPerson = personRepository.findById(id);
         if (opDbPerson.isEmpty())
-            throw new SOAPException("Person with specified id not found");
+            throw new SOAPException(404, "Person with specified id not found");
 
         DBPerson dbPerson = opDbPerson.get();
 
@@ -240,11 +241,11 @@ public class PersonEndpoint {
         try{
             errors.addAll(personValidator.validate(person));
         }catch (IllegalAccessException e){
-            throw new SOAPException("Failed to validate person parameters");
+            throw new SOAPException(400, "Failed to validate person parameters");
         }
 
         if (!errors.isEmpty())
-            throw new SOAPException(converter.listToStr(errors, "errors", new String[0]));
+            throw new SOAPException(400, converter.listToStr(errors, "errors", new String[0]));
 
         DBPerson newDBPerson = DBPerson.fromInPerson(person);
         personRepository.save(newDBPerson);
@@ -271,16 +272,16 @@ public class PersonEndpoint {
         try{
             errors = personValidator.validate(person);
         }catch (IllegalAccessException e) {
-            throw new SOAPException("Failed to validate person parameters");
+            throw new SOAPException(400, "Failed to validate person parameters");
         }
 
         if (!errors.isEmpty())
-            throw new SOAPException(converter.listToStr(errors, "errors", new String[0]));
+            throw new SOAPException(400, converter.listToStr(errors, "errors", new String[0]));
 
         Optional<DBPerson> opDbPerson = personRepository.findById(id);
 
         if (opDbPerson.isEmpty())
-            throw new SOAPException("Person with specified id not found");
+            throw new SOAPException(404, "Person with specified id not found");
 
         DBPerson dbPerson = opDbPerson.get();
         System.out.println("Location: ");
@@ -311,7 +312,7 @@ public class PersonEndpoint {
         Optional<DBPerson> person = personRepository.findById(id);
 
         if (person.isEmpty())
-            throw new SOAPException("Person with specified id not found");
+            throw new SOAPException(404, "Person with specified id not found");
 
         personRepository.delete(person.get());
 

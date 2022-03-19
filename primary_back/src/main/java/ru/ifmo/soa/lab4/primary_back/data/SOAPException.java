@@ -5,7 +5,7 @@ import org.springframework.ws.soap.server.endpoint.annotation.SoapFault;
 
 @SoapFault(faultCode = FaultCode.SERVER)
 public class SOAPException extends Exception {
-    public SOAPException(String message) {
-        super(message);
+    public SOAPException(Integer code, String message) {
+        super(code + ":" + message);
     }
 }

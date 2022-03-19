@@ -1,0 +1,42 @@
+server:
+  port: 5052
+  address: 127.0.0.1
+  ssl:
+    key-store-type: jks
+    key-store: classpath:keystore.jks
+    key-store-password: changeit
+    key-alias: soa
+    trust-store: classpath:cacerts.jks
+    trust-store-password: changeit
+spring:
+  application:
+    name: gateway
+eureka:
+  client:
+    region: default
+    registry-fetch-interval-seconds: 5
+    fetch-registry: true
+    service-url:
+      default-zone: https://localhost:5051/eureka
+    register-with-eureka: true
+  instance:
+    hostname: localhost
+    ip-address: ${server.address}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health, routes
+ribbon:
+  ReadTimeout: 60000
+zuul:
+  routes:
+    demography:
+      path: /demography/**
+      url: http://localhost:5080
+      stripPrefix: false
+    api:
+      path: /api/**
+      url: http://localhost:5055
+      stripPrefix: true
+
