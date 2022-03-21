@@ -1,6 +1,5 @@
 package ru.ifmo.soa.lab4.primary_back.endpoints;
 
-import org.apache.tomcat.util.log.SystemLogHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +24,6 @@ import ru.ifmo.soa.lab4.primary_back.repositories.LocationRepository;
 import ru.ifmo.soa.lab4.primary_back.repositories.PersonRepository;
 
 
-import javax.xml.ws.http.HTTPException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;

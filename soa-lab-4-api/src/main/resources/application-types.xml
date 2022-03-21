@@ -5,5 +5,36 @@
       <types:shape format="raml"><![CDATA[#%RAML 1.0 DataType
 type: string]]></types:shape>
     </types:type>
+    <types:type name="error" format="java">
+      <types:shape format="raml"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
   </types:catalog>
+  <types:enrichment select="#f5660edf-7c7c-4298-aa9c-58a082845bd4">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="error"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#1c05a362-be20-41b2-aecf-fc193de87d72">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="error"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#d6cf37cf-eba5-4ce4-b820-28b7653e16d8">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="error"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
 </types:mule>

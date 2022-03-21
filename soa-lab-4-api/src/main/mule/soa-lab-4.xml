@@ -69,6 +69,7 @@ http://www.mulesoft.org/schema/mule/wsc http://www.mulesoft.org/schema/mule/wsc/
 			<wsc:custom-transport-configuration >
 				<wsc:http-transport-configuration requesterConfig="HTTP_Request_configuration" />
 			</wsc:custom-transport-configuration>
+			<wsc:web-service-security actor="http://schemas.xmlsoap.org/soap/actor/next" />
 		</wsc:connection>
 	</wsc:config>
 	<flow name="soa-lab-4-main">
@@ -89,10 +90,10 @@ http://www.mulesoft.org/schema/mule/wsc http://www.mulesoft.org/schema/mule/wsc/
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Bad request"}]]></ee:set-payload>
+"Invalid data format"]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">400</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
@@ -102,10 +103,10 @@ output application/json
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Resource not found"}]]></ee:set-payload>
+"Resource not found"]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[404]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
@@ -115,10 +116,10 @@ output application/json
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Method not allowed"}]]></ee:set-payload>
+"Method not allowed"]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">405</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[405]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
@@ -128,10 +129,10 @@ output application/json
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Not acceptable"}]]></ee:set-payload>
+"Not acceptable"]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">406</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[406]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
@@ -141,10 +142,10 @@ output application/json
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Unsupported media type"}]]></ee:set-payload>
+"Unsupported media type"]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">415</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[415]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
@@ -154,10 +155,10 @@ output application/json
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Not Implemented"}]]></ee:set-payload>
+"Not Implemented"]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">501</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[501]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
@@ -181,10 +182,10 @@ output application/json
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Resource not found"}]]></ee:set-payload>
+"Resource not found"]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[404]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
@@ -238,6 +239,19 @@ ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
 ]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="fdf2b525-4329-43a9-925d-9fd10f2aefc9" >
+				<set-variable value="404" doc:name="Set Variable" doc:id="ae333e51-ed4c-4577-9ae5-5cc0b5bff019" variableName="httpStatus"/>
+				<ee:transform doc:name="Transform Message" doc:id="09263fc4-ee7f-49be-9fd8-4a5e0fc474c0" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output text
+---
+"Person with specified ID not found"]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</on-error-propagate>
+		</error-handler>
     </flow>
     <flow name="delete:\persons\(id):soa-lab-4-config">
         <logger level="INFO" message="delete:\persons\(id):soa-lab-4-config" />
@@ -270,6 +284,20 @@ ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<error-handler>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="59b6eb42-e1ef-4e9a-b5fc-81283148ec71" >
+				<set-variable value="404" doc:name="Set Variable" doc:id="6f83364d-5257-47ec-b3aa-9b6076947ca3" variableName="httpStatus"/>
+				<ee:transform doc:name="Transform Message" doc:id="d6cf37cf-eba5-4ce4-b820-28b7653e16d8" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"Person with specified ID not found"
+]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</on-error-propagate>
+		</error-handler>
     </flow>
     <flow name="options:\persons:soa-lab-4-config">
         <logger level="INFO" message="options:\persons:soa-lab-4-config" />
@@ -355,6 +383,19 @@ ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="a0ac8a19-c0ab-44e6-8fc6-4234ae15b796" >
+				<set-variable value="400" doc:name="Set Variable" doc:id="71c11875-d457-4609-80b7-51cc069ff67e" variableName="httpStatus"/>
+				<ee:transform doc:name="Transform Message" doc:id="0a87d3d0-a70a-41f1-a72b-5bc80ebcc2ea" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output text
+---
+"Incorrect parameters format"]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</on-error-propagate>
+		</error-handler>
     </flow>
     <flow name="get:\persons\heights\sum:soa-lab-4-config">
         <logger level="INFO" message="get:\persons\heights\sum:soa-lab-4-config" />
@@ -473,6 +514,19 @@ ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="760445ab-8f77-47c2-905a-d24e21a121ec" >
+				<set-variable value="400" doc:name="Set Variable" doc:id="13286b16-0f97-4a19-9526-795d4574b612" variableName="httpStatus"/>
+				<ee:transform doc:name="Transform Message" doc:id="1a7560aa-9656-4d03-97cd-9dfe51c60e77" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output text
+---
+"Incorrect name format"]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</on-error-propagate>
+		</error-handler>
     </flow>
     <flow name="get:\persons\(id):soa-lab-4-config">
 		<logger level="INFO" message="get:\persons\(id):soa-lab-4-config" />
@@ -519,6 +573,19 @@ ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
 ]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="e67994c1-c0b8-4c2c-8073-d2f47b22adce" >
+				<set-variable value="404" doc:name="Set Variable" doc:id="d3f3f9e2-9e7d-49f5-a731-fea0b5d16ee2" variableName="httpStatus"/>
+				<ee:transform doc:name="Transform Message" doc:id="3469218d-e41e-46dc-a1cb-65faf66d8bb0">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output text
+---
+"Person with specified ID not found"]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</on-error-propagate>
+		</error-handler>
     </flow>
     <flow name="post:\persons:application\xml:soa-lab-4-config">
         <logger level="INFO" message="post:\persons:application\xml:soa-lab-4-config" />
@@ -568,5 +635,18 @@ ns ns0 http://www.ifmo.ru/soa/lab4/primary_back/data/gen
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="54a33533-4d28-4b6d-a004-d2d9fd4e06cf" >
+				<set-variable value="400" doc:name="Set Variable" doc:id="35b00778-4c1a-4767-8741-7e2220d4bf00" variableName="httpStatus"/>
+				<ee:transform doc:name="Transform Message" doc:id="11b7fd35-c51b-4499-96cf-340b4e554529" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output text
+---
+"Incorrect request body format"]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</on-error-propagate>
+		</error-handler>
     </flow>
 </mule>
